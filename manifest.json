@@ -1,0 +1,71 @@
+{
+  "manifest_version": 3,
+  "name": "PromptNest",
+  "version": "1.0.0",
+  "description": "A sleek Chrome extension for saving and managing AI prompts with categories, search, and one-click insertion.",
+  
+  "action": {
+    "default_title": "PromptNest - Manage Your Prompts"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "*://chat.openai.com/*",
+        "*://chatgpt.com/*",
+        "*://gemini.google.com/*",
+        "*://claude.ai/*",
+        "*://copilot.microsoft.com/*",
+        "*://chat.deepseek.com/*"
+      ],
+      "js": ["content/sidebar-utils.js", "content/sidebar-modal-manager.js", "content/sidebar.js", "content/content.js"],
+      "css": ["content/icon.css", "content/sidebar.css"],
+      "run_at": "document_end"
+    }
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "permissions": [
+    "storage",
+    "activeTab",
+    "notifications",
+    "alarms",
+    "contextMenus"
+  ],
+
+  "commands": {
+    "open-promptnest": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+P",
+        "mac": "Command+Shift+P"
+      },
+      "description": "Open PromptNest popup"
+    },
+    "quick-search": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "mac": "Command+Shift+F"
+      },
+      "description": "Quick search prompts"
+    }
+  },
+
+  "host_permissions": [
+    "*://chat.openai.com/*",
+    "*://chatgpt.com/*",
+    "*://gemini.google.com/*",
+    "*://claude.ai/*",
+    "*://copilot.microsoft.com/*",
+    "*://chat.deepseek.com/*"
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["popup/*", "content/*", "icons/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+/* Minimal floating icon styles for AI websites */
+#promptnest-floating-icon {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    border-radius: 12px;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.85;
+    border: none;
+    user-select: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+#promptnest-floating-icon:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+}
+
+#promptnest-floating-icon:active {
+    transform: translateY(0px) scale(0.95);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+}
+
+.promptnest-icon-content {
+    color: white;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.promptnest-icon-content svg {
+    width: 20px;
+    height: 20px;
+    opacity: 0.95;
+    transition: all 0.2s ease;
+}
+
+#promptnest-floating-icon:hover .promptnest-icon-content svg {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #promptnest-floating-icon {
+        width: 44px;
+        height: 44px;
+        bottom: 20px;
+        right: 20px;
+        border-radius: 10px;
+    }
+    
+    .promptnest-icon-content svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2) {
+    #promptnest-floating-icon {
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    }
+    
+    #promptnest-floating-icon:hover {
+        box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+    }
+}
+
+/* Dark theme support (auto-detect system preference) */
+@media (prefers-color-scheme: dark) {
+    #promptnest-floating-icon {
+        background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        opacity: 0.9;
+    }
+    
+    #promptnest-floating-icon:hover {
+        background: linear-gradient(135deg, #4338ca 0%, #312e81 100%);
+        box-shadow: 0 8px 24px rgba(79, 70, 229, 0.5);
+    }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    #promptnest-floating-icon {
+        transition: opacity 0.1s ease;
+    }
+    
+    #promptnest-floating-icon:hover {
+        transform: none;
+    }
+    
+    .promptnest-icon-content svg,
+    #promptnest-floating-icon:hover .promptnest-icon-content svg {
+        transform: none;
+        transition: opacity 0.1s ease;
+    }
+}
+
+/* Focus styles for accessibility */
+#promptnest-floating-icon:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+    #promptnest-floating-icon:focus {
+        outline-color: #e5e7eb;
+    }
+}
+
+/* Animation for initial appearance */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 0.85;
+        transform: scale(1);
+    }
+}
+
+#promptnest-floating-icon {
+    animation: fadeInScale 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Pulse effect for attention (optional) */
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+    50% {
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.5), 0 0 0 8px rgba(59, 130, 246, 0.1);
+    }
+}
+
+/* Uncomment to enable pulse effect on first load */
+/*
+#promptnest-floating-icon.pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.2, 1) 3;
+}
+*/

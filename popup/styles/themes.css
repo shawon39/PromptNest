@@ -1,0 +1,216 @@
+/* Light Theme (Default) */
+[data-theme="light"], [data-theme="auto"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --bg-hover: #e2e8f0;
+    
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-tertiary: #64748b;
+    
+    --border-color: #e2e8f0;
+    --border-hover: #cbd5e1;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --bg-hover: #475569;
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    
+    --border-color: #334155;
+    --border-hover: #475569;
+}
+
+/* Auto Theme Detection */
+@media (prefers-color-scheme: dark) {
+    [data-theme="auto"] {
+        --bg-primary: #0f172a;
+        --bg-secondary: #1e293b;
+        --bg-tertiary: #334155;
+        --bg-hover: #475569;
+        
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-tertiary: #94a3b8;
+        
+        --border-color: #334155;
+        --border-hover: #475569;
+    }
+}
+
+/* Theme-specific adjustments */
+[data-theme="dark"] .prompt-item:hover {
+    background: var(--bg-tertiary);
+}
+
+[data-theme="dark"] .search-input:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="dark"] .category-item.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+[data-theme="dark"] .category-count {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .category-item.active .category-count {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .modal-overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary);
+}
+
+/* High contrast adjustments for dark theme */
+[data-theme="dark"] .app-header {
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .sidebar {
+    border-right-color: var(--border-color);
+}
+
+[data-theme="dark"] .content-header {
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .modal-header {
+    border-bottom-color: var(--border-color);
+}
+
+/* Light theme specific adjustments */
+[data-theme="light"] .prompt-item {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+[data-theme="light"] .search-input {
+    background: var(--bg-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="light"] .category-item:hover {
+    background: var(--bg-hover);
+}
+
+/* Theme transition animations */
+* {
+    transition: background-color var(--transition-normal),
+                border-color var(--transition-normal),
+                color var(--transition-normal);
+}
+
+/* Ensure smooth theme transitions */
+.app-container,
+.app-header,
+.sidebar,
+.content-area,
+.modal-content,
+.prompt-item,
+.category-item,
+.search-input,
+.form-input,
+.form-select,
+.form-textarea {
+    transition: all var(--transition-normal);
+}
+
+/* Auto theme media query for system preference detection */
+@media (prefers-color-scheme: light) {
+    [data-theme="auto"] {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f8fafc;
+        --bg-tertiary: #f1f5f9;
+        --bg-hover: #e2e8f0;
+        
+        --text-primary: #1e293b;
+        --text-secondary: #475569;
+        --text-tertiary: #64748b;
+        
+        --border-color: #e2e8f0;
+        --border-hover: #cbd5e1;
+    }
+}
+
+/* Focus states for better accessibility in both themes */
+[data-theme="light"] .primary-button:focus,
+[data-theme="light"] .secondary-button:focus,
+[data-theme="light"] .icon-button:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+[data-theme="dark"] .primary-button:focus,
+[data-theme="dark"] .secondary-button:focus,
+[data-theme="dark"] .icon-button:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Better contrast for placeholder text in dark theme */
+[data-theme="dark"] .search-input::placeholder,
+[data-theme="dark"] .form-input::placeholder,
+[data-theme="dark"] .form-textarea::placeholder {
+    color: var(--text-tertiary);
+    opacity: 0.8;
+}
+
+/* Selection colors for both themes */
+[data-theme="light"] ::selection {
+    background: rgba(59, 130, 246, 0.2);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] ::selection {
+    background: rgba(59, 130, 246, 0.3);
+    color: var(--text-primary);
+}
+
+/* Theme-specific button hover states */
+[data-theme="dark"] .secondary-button:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .icon-button:hover {
+    background: var(--bg-tertiary);
+}
+
+/* Improved readability for code or monospace text in themes */
+[data-theme="light"] code,
+[data-theme="light"] .monospace {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    padding: 2px 4px;
+    border-radius: var(--border-radius-small);
+}
+
+[data-theme="dark"] code,
+[data-theme="dark"] .monospace {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    padding: 2px 4px;
+    border-radius: var(--border-radius-small);
+}

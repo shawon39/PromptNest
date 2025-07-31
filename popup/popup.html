@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromptNest</title>
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/themes.css">
+    <link rel="stylesheet" href="styles/popup.css">
+    <link rel="stylesheet" href="styles/icons.css">
+</head>
+<body data-theme="auto">
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <span class="icon icon-folder icon-lg app-icon"></span>
+                    PromptNest
+                </h1>
+                <div class="header-actions">
+                    <button class="icon-button" id="settingsBtn" title="Settings">
+                        <span class="icon icon-settings"></span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search prompts..." class="search-input">
+                <button class="search-clear" id="searchClear" style="display: none;">×</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Sidebar for Categories -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h3>Categories</h3>
+                    <button class="icon-button small" id="addCategoryBtn" title="Add Category">+</button>
+                </div>
+                <div class="category-list" id="categoryList">
+                    <div class="category-item active" data-category="all">
+                        <span class="category-name">All Prompts</span>
+                        <span class="category-count">0</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Prompt List Area -->
+            <section class="content-area">
+                <div class="content-header">
+                    <h3 id="contentTitle">All Prompts</h3>
+                    <button class="primary-button" id="c">
+                        <span class="icon icon-plus"></span>
+                        Add Prompt
+                    </button>
+                </div>
+                
+                <div class="prompt-list" id="promptList">
+                    <div class="empty-state" id="emptyState">
+                        <div class="empty-icon">
+                            <span class="icon icon-document icon-lg"></span>
+                        </div>
+                        <h4>No prompts yet</h4>
+                        <p>Create your first prompt to get started</p>
+                        <button class="primary-button" id="createFirstPrompt">Create Prompt</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Settings Panel (Hidden by default) -->
+        <div class="modal-overlay" id="settingsModal" style="display: none;">
+            <div class="modal-content settings-modal">
+                <div class="modal-header">
+                    <h2>Settings</h2>
+                    <button class="icon-button" id="closeSettings">
+                        <span class="icon icon-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-group">
+                        <label class="setting-label">Theme</label>
+                        <select id="themeSelect" class="setting-select">
+                            <option value="auto">Auto (System)</option>
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label class="setting-label">Data Management</label>
+                        <div class="setting-buttons">
+                            <button class="secondary-button" id="exportBtn">
+                                <span class="icon icon-export"></span>
+                                Export Prompts
+                            </button>
+                            <button class="secondary-button" id="importBtn">
+                                <span class="icon icon-import"></span>
+                                Import Prompts
+                            </button>
+                        </div>
+                        <input type="file" id="importFile" accept=".json" style="display: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add/Edit Prompt Modal -->
+        <div class="modal-overlay" id="promptModal" style="display: none;">
+            <div class="modal-content prompt-modal">
+                <div class="modal-header">
+                    <h2 id="promptModalTitle">Add Prompt</h2>
+                    <button class="icon-button" id="closePromptModal">
+                        <span class="icon icon-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="promptTitle">Title</label>
+                        <input type="text" id="promptTitle" placeholder="Enter prompt title..." class="form-input" required>
+                        <div class="form-error" id="promptTitleError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="promptCategory">Category</label>
+                        <select id="promptCategory" class="form-select">
+                            <option value="">Select category...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="promptContent">Prompt Content</label>
+                        <textarea id="promptContent" placeholder="Enter your prompt here..." class="form-textarea" required></textarea>
+                        <div class="form-error" id="promptContentError"></div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="secondary-button" id="cancelPrompt">Cancel</button>
+                        <button class="primary-button" id="savePrompt">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Category Modal -->
+        <div class="modal-overlay" id="categoryModal" style="display: none;">
+            <div class="modal-content category-modal">
+                <div class="modal-header">
+                    <h2>Add Category</h2>
+                    <button class="icon-button" id="closeCategoryModal">
+                        <span class="icon icon-close"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="categoryName">Category Name</label>
+                        <input type="text" id="categoryName" placeholder="Enter category name..." class="form-input" required>
+                        <div class="form-error" id="categoryNameError"></div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="secondary-button" id="cancelCategory">Cancel</button>
+                        <button class="primary-button" id="saveCategory">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/storage.js"></script>
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/form-handler.js"></script>
+    <script src="scripts/data-manager.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/settings.js"></script>
+    <script src="scripts/import-export.js"></script>
+    <script src="scripts/popup.js"></script>
+</body>
+</html>
