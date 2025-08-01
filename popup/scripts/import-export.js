@@ -46,7 +46,6 @@ class PromptNestImportExport {
                 
                 // Show success message
                 if (window.promptNestUI) {
-                    window.promptNestUI.showNotification('Data exported successfully', 'success');
                 }
             } else {
                 throw new Error('Failed to export data');
@@ -55,7 +54,6 @@ class PromptNestImportExport {
         } catch (error) {
             console.error('Export failed:', error);
             if (window.promptNestUI) {
-                window.promptNestUI.showNotification('Export failed: ' + error.message, 'error');
             }
         } finally {
             this.setExportButtonState('idle');
@@ -201,7 +199,6 @@ class PromptNestImportExport {
                         await window.promptNestUI.loadCategories();
                         await window.promptNestUI.loadPrompts();
                         await window.promptNestUI.updatePromptCounts();
-                        window.promptNestUI.showNotification('Data imported successfully', 'success');
                     }
                 } else {
                     throw new Error('Import operation failed');
@@ -214,7 +211,6 @@ class PromptNestImportExport {
                 const message = error.message.includes('JSON') 
                     ? 'Invalid file format. Please select a valid PromptNest backup file.'
                     : 'Import failed: ' + error.message;
-                window.promptNestUI.showNotification(message, 'error');
             }
         } finally {
             // Reset file input

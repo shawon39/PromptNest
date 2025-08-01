@@ -192,38 +192,59 @@ class PromptNestFloatingIcon {
         }
 
         if (targetInput) {
-            // For contenteditable divs, focus on the div but insert text into p tag if it exists
+            // Focus the input first
+            targetInput.focus();
+            
+            // For contenteditable divs, preserve newlines by converting to HTML
             if (targetInput.contentEditable === 'true') {
-                targetInput.focus();
+                // Convert newlines to HTML breaks for proper display
+                const htmlText = promptText.replace(/\n/g, '<br>');
+                
                 const pTag = targetInput.querySelector('p');
                 if (pTag) {
-                    pTag.textContent = promptText;
+                    // Clear existing content and set new HTML content
+                    pTag.innerHTML = htmlText;
                     pTag.dispatchEvent(new Event('input', { bubbles: true }));
                 } else {
-                    targetInput.textContent = promptText;
+                    // Clear and set content on the contenteditable element directly
+                    targetInput.innerHTML = htmlText;
                 }
+                
+                // Dispatch events to trigger AI site's input handling
                 targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+                targetInput.dispatchEvent(new Event('keyup', { bubbles: true }));
+                
+                // Move cursor to end
+                this.setCursorToEnd(targetInput);
+                
             } else if (targetInput.tagName === 'P') {
-                // If we directly selected a p tag, focus its parent and set content
+                // If we directly selected a p tag, handle it as contenteditable
                 const parent = targetInput.parentElement;
                 if (parent && parent.contentEditable === 'true') {
                     parent.focus();
                 }
-                targetInput.textContent = promptText;
+                
+                const htmlText = promptText.replace(/\n/g, '<br>');
+                targetInput.innerHTML = htmlText;
                 targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+                
                 if (parent) {
                     parent.dispatchEvent(new Event('input', { bubbles: true }));
+                    parent.dispatchEvent(new Event('keyup', { bubbles: true }));
                 }
+                
+                this.setCursorToEnd(targetInput);
+                
             } else {
-                // Regular input/textarea
-                targetInput.focus();
+                // Regular input/textarea - these preserve newlines naturally
                 targetInput.value = promptText;
                 targetInput.dispatchEvent(new Event('input', { bubbles: true }));
                 targetInput.dispatchEvent(new Event('change', { bubbles: true }));
+                targetInput.dispatchEvent(new Event('keyup', { bubbles: true }));
             }
             
-            // Set cursor to end
-            if (targetInput.setSelectionRange) {
+            // Set cursor to end for regular inputs
+            if (targetInput.setSelectionRange && targetInput.tagName !== 'DIV') {
                 targetInput.setSelectionRange(promptText.length, promptText.length);
             }
             
@@ -231,6 +252,28 @@ class PromptNestFloatingIcon {
         }
         
         return false;
+    }
+
+    // Helper method to set cursor to end of contenteditable element
+    setCursorToEnd(element) {
+        if (window.getSelection && document.createRange) {
+            const range = document.createRange();
+            const selection = window.getSelection();
+            
+            try {
+                range.selectNodeContents(element);
+                range.collapse(false); // Collapse to end
+                selection.removeAllRanges();
+                selection.addRange(range);
+            } catch (error) {
+                // Fallback: just focus the element
+                console.warn('Could not set cursor position:', error);
+                element.focus();
+            }
+        } else {
+            // Fallback for older browsers
+            element.focus();
+        }
     }
 
     // Clean up method

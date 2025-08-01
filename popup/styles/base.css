@@ -5,8 +5,13 @@
     box-sizing: border-box;
 }
 
+/* Ensure Lato font is used throughout */
+*, *::before, *::after {
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 14px;
     line-height: 1.4;
     width: 380px;
@@ -87,19 +92,20 @@ body {
 
 .search-input {
     width: 100%;
-    padding: 8px 32px 8px 12px;
+    padding: 10px 32px 10px 12px;
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     background: var(--bg-primary);
     color: var(--text-primary);
     font-size: 14px;
     transition: all var(--transition-fast);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .search-input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .search-clear {
@@ -162,20 +168,24 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 10px;
+    padding: 10px 12px;
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: all var(--transition-fast);
     font-size: 13px;
+    border-left: 3px solid transparent;
 }
 
 .category-item:hover {
     background: var(--bg-hover);
+    transform: translateX(2px);
 }
 
 .category-item.active {
     background: var(--primary-color);
     color: white;
+    border-left-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
 }
 
 .category-name {
@@ -231,14 +241,16 @@ body {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
-    padding: 12px;
-    margin-bottom: 8px;
+    padding: 14px;
+    margin-bottom: 10px;
     transition: all var(--transition-fast);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .prompt-item:hover {
     border-color: var(--primary-color);
-    box-shadow: var(--shadow-small);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    transform: translateY(-1px);
 }
 
 .prompt-header {
@@ -319,7 +331,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 8px 16px;
+    padding: 10px 16px;
     border-radius: var(--border-radius);
     font-size: 14px;
     font-weight: 500;
@@ -327,6 +339,7 @@ body {
     transition: all var(--transition-fast);
     border: none;
     text-decoration: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .primary-button {
@@ -336,6 +349,8 @@ body {
 
 .primary-button:hover {
     background: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
 }
 
 .secondary-button {
@@ -347,6 +362,8 @@ body {
 .secondary-button:hover {
     background: var(--bg-hover);
     border-color: var(--primary-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .icon-button {
@@ -361,11 +378,14 @@ body {
     color: var(--text-secondary);
     cursor: pointer;
     transition: all var(--transition-fast);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .icon-button:hover {
     background: var(--bg-hover);
     color: var(--text-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .icon-button.small {
@@ -450,7 +470,7 @@ body {
 .form-textarea {
     resize: vertical;
     min-height: 100px;
-    font-family: inherit;
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .form-input:focus, .form-select:focus, .form-textarea:focus {

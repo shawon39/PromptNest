@@ -17,6 +17,12 @@ class PromptNestDataManager {
             // Clear existing categories (except "All Prompts")
             const existingCategories = categoryList.querySelectorAll('.category-item:not([data-category="all"])');
             existingCategories.forEach(item => item.remove());
+            
+            // Update "All Prompts" active state
+            const allPromptsItem = categoryList.querySelector('.category-item[data-category="all"]');
+            if (allPromptsItem) {
+                allPromptsItem.classList.toggle('active', this.currentCategory === 'all');
+            }
 
             // Add categories to sidebar
             categories.forEach(category => {
@@ -39,13 +45,13 @@ class PromptNestDataManager {
 
         } catch (error) {
             console.error('Failed to load categories:', error);
-            PromptNestUtils.showNotification('Failed to load categories', 'error');
         }
     }
 
     createCategoryItem(category) {
         const categoryItem = document.createElement('div');
-        categoryItem.className = 'category-item';
+        const isActive = this.currentCategory === category.id;
+        categoryItem.className = isActive ? 'category-item active' : 'category-item';
         categoryItem.dataset.category = category.id;
         
         categoryItem.innerHTML = `
@@ -107,7 +113,6 @@ class PromptNestDataManager {
             
         } catch (error) {
             console.error('Failed to load prompts:', error);
-            PromptNestUtils.showNotification('Failed to load prompts', 'error');
         } finally {
             PromptNestUtils.setLoadingState(false);
         }
@@ -156,8 +161,8 @@ class PromptNestDataManager {
             <div class="prompt-header">
                 <div class="prompt-title">${PromptNestUtils.escapeHtml(prompt.title)}</div>
                 <div class="prompt-actions">
-                    <button class="icon-button use-prompt-btn" data-action="use" data-prompt-id="${prompt.id}" title="Insert Prompt">
-                        <span class="icon icon-use"></span>
+                    <button class="primary-button use-prompt-btn" data-action="use" data-prompt-id="${prompt.id}" title="Insert Prompt">
+                        <span class="icon icon-use"></span> Insert
                     </button>
                     <button class="icon-button" data-action="copy" data-prompt-id="${prompt.id}" title="Copy Prompt">
                         <span class="icon icon-copy"></span>
@@ -250,7 +255,6 @@ class PromptNestDataManager {
             const prompt = prompts.find(p => p.id === promptId);
             
             if (!prompt) {
-                PromptNestUtils.showNotification('Prompt not found', 'error');
                 return;
             }
             
@@ -266,18 +270,15 @@ class PromptNestDataManager {
                     promptText: prompt.content
                 }, (response) => {
                     if (response && response.success) {
-                        PromptNestUtils.showNotification('Prompt inserted successfully', 'success');
                         // Close popup after successful use
                         setTimeout(() => window.close(), 1000);
                     } else {
-                        PromptNestUtils.showNotification('Failed to insert prompt. Make sure you\'re on a supported AI website.', 'error');
                     }
                 });
             }
             
         } catch (error) {
             console.error('Failed to use prompt:', error);
-            PromptNestUtils.showNotification('Failed to use prompt', 'error');
         }
     }
 
@@ -287,17 +288,14 @@ class PromptNestDataManager {
             const prompt = prompts.find(p => p.id === promptId);
             
             if (!prompt) {
-                PromptNestUtils.showNotification('Prompt not found', 'error');
                 return;
             }
             
             // Copy prompt content to clipboard
             await navigator.clipboard.writeText(prompt.content);
-            PromptNestUtils.showNotification('Prompt copied to clipboard', 'success');
             
         } catch (error) {
             console.error('Failed to copy prompt:', error);
-            PromptNestUtils.showNotification('Failed to copy prompt', 'error');
         }
     }
 
@@ -313,16 +311,13 @@ class PromptNestDataManager {
             const clonedPrompt = await promptNestStorage.clonePrompt(promptId);
             
             if (clonedPrompt) {
-                PromptNestUtils.showNotification('Prompt cloned successfully', 'success');
                 await this.loadPrompts();
                 await this.updatePromptCounts();
             } else {
-                PromptNestUtils.showNotification('Failed to clone prompt', 'error');
             }
             
         } catch (error) {
             console.error('Failed to clone prompt:', error);
-            PromptNestUtils.showNotification('Failed to clone prompt', 'error');
         }
     }
 
@@ -335,16 +330,13 @@ class PromptNestDataManager {
             const success = await promptNestStorage.deletePrompt(promptId);
             
             if (success) {
-                PromptNestUtils.showNotification('Prompt deleted successfully', 'success');
                 await this.loadPrompts();
                 await this.updatePromptCounts();
             } else {
-                PromptNestUtils.showNotification('Failed to delete prompt', 'error');
             }
             
         } catch (error) {
             console.error('Failed to delete prompt:', error);
-            PromptNestUtils.showNotification('Failed to delete prompt', 'error');
         }
     }
 }

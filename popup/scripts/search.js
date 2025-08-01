@@ -257,8 +257,8 @@ class PromptNestSearch {
             <div class="prompt-header">
                 <div class="prompt-title">${highlightedTitle}</div>
                 <div class="prompt-actions">
-                    <button class="icon-button" data-action="use" data-prompt-id="${prompt.id}" title="Insert Prompt">
-                        <span class="icon icon-use"></span>
+                    <button class="primary-button" data-action="use" data-prompt-id="${prompt.id}" title="Insert Prompt">
+                        <span class="icon icon-use"></span> Insert
                     </button>
                     <button class="icon-button" data-action="copy" data-prompt-id="${prompt.id}" title="Copy Prompt">
                         <span class="icon icon-copy"></span>

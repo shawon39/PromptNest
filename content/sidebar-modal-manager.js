@@ -179,7 +179,6 @@ class SidebarModalManager {
             
             if (existingDuplicate) {
                 console.warn('Sidebar: Duplicate prompt detected, skipping creation:', trimmedTitle);
-                this.sidebar.showToast('Prompt already exists!');
                 this.hideModal();
                 return;
             }
@@ -200,13 +199,47 @@ class SidebarModalManager {
             this.sidebar.updatePromptList();
             this.sidebar.updateCategoryList();
             this.hideModal();
-            this.sidebar.showToast('Prompt added successfully!');
         } catch (error) {
             console.error('Sidebar: Failed to add prompt:', error);
-            this.sidebar.showToast('Failed to add prompt');
         } finally {
             this.isSubmitting = false;
         }
+    }
+
+    showViewPromptModal(prompt) {
+        // Find the category name
+        const category = this.sidebar.categories.find(cat => cat.id === prompt.categoryId);
+        const categoryName = category ? category.name : 'Uncategorized';
+        
+        const content = `
+            <div class="promptnest-modal-header">
+                <h2 class="promptnest-modal-title">View Prompt</h2>
+                <button class="promptnest-modal-close">
+                    <span class="icon icon-close"></span>
+                </button>
+            </div>
+            <div class="promptnest-modal-body">
+                <div class="promptnest-view-group">
+                    <label class="promptnest-view-label">Title</label>
+                    <div class="promptnest-view-content">${prompt.title}</div>
+                </div>
+                
+                <div class="promptnest-view-group">
+                    <label class="promptnest-view-label">Category</label>
+                    <div class="promptnest-view-content">${categoryName}</div>
+                </div>
+                
+                <div class="promptnest-view-group">
+                    <label class="promptnest-view-label">Prompt Content</label>
+                    <div class="promptnest-view-content promptnest-view-textarea">${prompt.content}</div>
+                </div>
+            </div>
+            <div class="promptnest-modal-footer">
+                <button type="button" class="promptnest-btn promptnest-btn-secondary" data-action="cancel-modal">Close</button>
+            </div>
+        `;
+        
+        this.showModal(content);
     }
 
     showEditPromptModal(prompt) {
@@ -292,7 +325,6 @@ class SidebarModalManager {
             this.sidebar.updatePromptList();
             this.sidebar.updateCategoryList();
             this.hideModal();
-            this.sidebar.showToast('Prompt updated successfully!');
         }
     }
 
@@ -326,7 +358,6 @@ class SidebarModalManager {
         this.sidebar.updatePromptList();
         this.sidebar.updateCategoryList();
         this.hideModal();
-        this.sidebar.showToast('Prompt deleted successfully!');
     }
 
     showAddCategoryModal() {
@@ -387,7 +418,6 @@ class SidebarModalManager {
         await chrome.storage.local.set({ categories: this.sidebar.categories });
         this.sidebar.updateCategoryList();
         this.hideModal();
-        this.sidebar.showToast('Category added successfully!');
     }
 
     async showSettingsModal() {
@@ -463,10 +493,8 @@ class SidebarModalManager {
             await chrome.storage.local.set({ settings: newSettings });
             this.sidebar.applyTheme(newSettings.theme);
             this.hideModal();
-            this.sidebar.showToast('Settings saved successfully!');
         } catch (error) {
             console.error('Failed to save settings:', error);
-            this.sidebar.showToast('Failed to save settings', 'error');
         }
     }
 
@@ -490,10 +518,8 @@ class SidebarModalManager {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             
-            this.sidebar.showToast('Data exported successfully!');
         } catch (error) {
             console.error('Export failed:', error);
-            this.sidebar.showToast('Export failed', 'error');
         }
     }
 
@@ -529,11 +555,9 @@ class SidebarModalManager {
                 
                 this.sidebar.updatePromptList();
                 this.sidebar.updateCategoryList();
-                this.sidebar.showToast('Data imported successfully!');
                 
             } catch (error) {
                 console.error('Import failed:', error);
-                this.sidebar.showToast('Import failed - invalid file format', 'error');
             }
         };
         

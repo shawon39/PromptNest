@@ -5,21 +5,6 @@ class PromptNestUtils {
         return isLoading;
     }
 
-    static showNotification(message, type = 'info') {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.textContent = message;
-        
-        document.body.appendChild(notification);
-        
-        // Auto remove after 3 seconds
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 3000);
-    }
 
     static escapeHtml(text) {
         const div = document.createElement('div');

@@ -45,7 +45,6 @@ class PromptNestBackground {
             await this.initializeDefaultData();
             
             // Show welcome notification
-            this.showNotification('Welcome to PromptNest!', 'PromptNest has been installed successfully. Click the extension icon to get started.');
             
             // Optionally open welcome page
             // chrome.tabs.create({ url: chrome.runtime.getURL('welcome.html') });
@@ -63,7 +62,6 @@ class PromptNestBackground {
             await this.handleDataMigration(previousVersion);
             
             // Show update notification
-            this.showNotification('PromptNest Updated', 'PromptNest has been updated with new features and improvements.');
             
         } catch (error) {
             console.error('Failed to handle update:', error);
@@ -226,11 +224,9 @@ class PromptNestBackground {
             await chrome.storage.local.set({ prompts });
             
             // Show success notification
-            this.showNotification('Prompt Saved', `"${newPrompt.title}" has been saved to PromptNest.`);
             
         } catch (error) {
             console.error('Failed to save selected text as prompt:', error);
-            this.showNotification('Error', 'Failed to save prompt. Please try again.');
         }
     }
 
@@ -249,11 +245,6 @@ class PromptNestBackground {
                     sendResponse({ supported: isSupported });
                     break;
                     
-                case 'showNotification':
-                    // Show notification from popup or content script
-                    this.showNotification(request.title, request.message, request.type);
-                    sendResponse({ success: true });
-                    break;
                     
                 default:
                     console.log('Unknown message action:', request.action);
@@ -345,34 +336,6 @@ class PromptNestBackground {
         }
     }
 
-    showNotification(title, message, type = 'basic') {
-        try {
-            // Ensure all required properties are present
-            if (!title || !message) {
-                console.warn('Notification title and message are required');
-                return;
-            }
-            
-            const notificationOptions = {
-                type: type,
-                title: title,
-                message: message
-            };
-            
-            // Only add iconUrl if we have a valid icon file
-            try {
-                // Use a simple 1x1 transparent PNG as fallback
-                notificationOptions.iconUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=';
-            } catch (iconError) {
-                // If icon fails, proceed without it
-                console.warn('Could not set notification icon:', iconError);
-            }
-            
-            chrome.notifications.create(notificationOptions);
-        } catch (error) {
-            console.error('Failed to show notification:', error);
-        }
-    }
 
     handleInstallation() {
         // Handle any additional installation setup

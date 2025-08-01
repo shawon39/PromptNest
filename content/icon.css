@@ -1,30 +1,39 @@
 /* Minimal floating icon styles for AI websites */
+
+/* Import Lato font */
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+
+/* Ensure Lato font is used for floating icon */
+#promptnest-floating-icon *, #promptnest-floating-icon *::before, #promptnest-floating-icon *::after {
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
 #promptnest-floating-icon {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 48px;
-    height: 48px;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
     background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     z-index: 9999;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.85;
+    opacity: 0.9;
     border: none;
     user-select: none;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 #promptnest-floating-icon:hover {
     opacity: 1;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
     background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
 }
 
@@ -44,8 +53,8 @@
 }
 
 .promptnest-icon-content svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     opacity: 0.95;
     transition: all 0.2s ease;
 }
@@ -58,16 +67,16 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
     #promptnest-floating-icon {
-        width: 44px;
-        height: 44px;
-        bottom: 20px;
-        right: 20px;
-        border-radius: 10px;
+        width: 36px;
+        height: 36px;
+        bottom: 16px;
+        right: 16px;
+        border-radius: 8px;
     }
     
     .promptnest-icon-content svg {
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
     }
 }
 

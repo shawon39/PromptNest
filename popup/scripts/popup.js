@@ -273,9 +273,6 @@ class PromptNestUI {
         return PromptNestUtils.setLoadingState(isLoading);
     }
 
-    showNotification(message, type = 'info') {
-        return PromptNestUtils.showNotification(message, type);
-    }
 
     escapeHtml(text) {
         return PromptNestUtils.escapeHtml(text);

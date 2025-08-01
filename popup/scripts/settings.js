@@ -82,13 +82,11 @@ class PromptNestSettings {
             
             // Show success notification
             if (window.promptNestUI) {
-                window.promptNestUI.showNotification('Theme updated successfully', 'success');
             }
             
         } catch (error) {
             console.error('Failed to update theme:', error);
             if (window.promptNestUI) {
-                window.promptNestUI.showNotification('Failed to update theme', 'error');
             }
         }
     }
@@ -147,7 +145,6 @@ class PromptNestSettings {
                 this.applyTheme(defaultSettings.theme);
                 
                 if (window.promptNestUI) {
-                    window.promptNestUI.showNotification('Settings reset successfully', 'success');
                 }
                 return true;
             }
@@ -156,7 +153,6 @@ class PromptNestSettings {
         } catch (error) {
             console.error('Failed to reset settings:', error);
             if (window.promptNestUI) {
-                window.promptNestUI.showNotification('Failed to reset settings', 'error');
             }
             return false;
         }
@@ -256,7 +252,6 @@ class PromptNestSettings {
         }
         
         if (window.promptNestUI) {
-            window.promptNestUI.showNotification(`Switched to ${newTheme} theme`, 'info');
         }
     }
 

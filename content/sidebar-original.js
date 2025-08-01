@@ -167,6 +167,9 @@ class PromptNestSidebar {
                     <button class="promptnest-use-btn" data-action="use" data-prompt-id="${prompt.id}">
                         <span class="icon icon-use"></span> Insert
                     </button>
+                    <button class="promptnest-view-btn" data-action="view" data-prompt-id="${prompt.id}">
+                        <span class="icon icon-eye"></span> View
+                    </button>
                     <button class="promptnest-edit-btn" data-action="edit" data-prompt-id="${prompt.id}">
                         <span class="icon icon-edit"></span> Edit
                     </button>
@@ -354,6 +357,9 @@ class PromptNestSidebar {
                     <button class="promptnest-use-btn" data-action="use" data-prompt-id="${prompt.id}">
                         <span class="icon icon-use"></span> Insert
                     </button>
+                    <button class="promptnest-view-btn" data-action="view" data-prompt-id="${prompt.id}">
+                        <span class="icon icon-eye"></span> View
+                    </button>
                     <button class="promptnest-edit-btn" data-action="edit" data-prompt-id="${prompt.id}">
                         <span class="icon icon-edit"></span> Edit
                     </button>
@@ -372,6 +378,9 @@ class PromptNestSidebar {
         switch (action) {
             case 'use':
                 await this.usePrompt(prompt);
+                break;
+            case 'view':
+                this.showViewPromptModal(prompt);
                 break;
             case 'edit':
                 this.showEditPromptModal(prompt);
@@ -397,9 +406,7 @@ class PromptNestSidebar {
             this.close();
             
             // Show success feedback
-            this.showToast('Prompt inserted successfully!');
         } else {
-            this.showToast('Could not find input field. Please try again.', 'error');
         }
     }
 
@@ -630,7 +637,6 @@ class PromptNestSidebar {
             
             if (existingDuplicate) {
                 console.warn('Sidebar Original: Duplicate prompt detected, skipping creation:', trimmedTitle);
-                this.showToast('Prompt already exists!');
                 this.hideModal();
                 return;
             }
@@ -651,13 +657,47 @@ class PromptNestSidebar {
             this.updatePromptList();
             this.updateCategoryList();
             this.hideModal();
-            this.showToast('Prompt added successfully!');
         } catch (error) {
             console.error('Sidebar Original: Failed to add prompt:', error);
-            this.showToast('Failed to add prompt');
         } finally {
             this.isSubmitting = false;
         }
+    }
+
+    showViewPromptModal(prompt) {
+        // Find the category name
+        const category = this.categories.find(cat => cat.id === prompt.categoryId);
+        const categoryName = category ? category.name : 'Uncategorized';
+        
+        const content = `
+            <div class="promptnest-modal-header">
+                <h2 class="promptnest-modal-title">View Prompt</h2>
+                <button class="promptnest-modal-close">
+                    <span class="icon icon-close"></span>
+                </button>
+            </div>
+            <div class="promptnest-modal-body">
+                <div class="promptnest-view-group">
+                    <label class="promptnest-view-label">Title</label>
+                    <div class="promptnest-view-content">${prompt.title}</div>
+                </div>
+                
+                <div class="promptnest-view-group">
+                    <label class="promptnest-view-label">Category</label>
+                    <div class="promptnest-view-content">${categoryName}</div>
+                </div>
+                
+                <div class="promptnest-view-group">
+                    <label class="promptnest-view-label">Prompt Content</label>
+                    <div class="promptnest-view-content promptnest-view-textarea">${prompt.content}</div>
+                </div>
+            </div>
+            <div class="promptnest-modal-footer">
+                <button type="button" class="promptnest-btn promptnest-btn-secondary" data-action="cancel-modal">Close</button>
+            </div>
+        `;
+        
+        this.showModal(content);
     }
 
     showEditPromptModal(prompt) {
@@ -743,7 +783,6 @@ class PromptNestSidebar {
             this.updatePromptList();
             this.updateCategoryList();
             this.hideModal();
-            this.showToast('Prompt updated successfully!');
         }
     }
 
@@ -777,7 +816,6 @@ class PromptNestSidebar {
         this.updatePromptList();
         this.updateCategoryList();
         this.hideModal();
-        this.showToast('Prompt deleted successfully!');
     }
 
     showAddCategoryModal() {
@@ -838,7 +876,6 @@ class PromptNestSidebar {
         await chrome.storage.local.set({ categories: this.categories });
         this.updateCategoryList();
         this.hideModal();
-        this.showToast('Category added successfully!');
     }
 
     async showSettingsModal() {
@@ -927,10 +964,8 @@ class PromptNestSidebar {
             await chrome.storage.local.set({ settings: newSettings });
             this.applyTheme(newSettings.theme);
             this.hideModal();
-            this.showToast('Settings saved successfully!');
         } catch (error) {
             console.error('Failed to save settings:', error);
-            this.showToast('Failed to save settings', 'error');
         }
     }
 
@@ -977,10 +1012,8 @@ class PromptNestSidebar {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             
-            this.showToast('Data exported successfully!');
         } catch (error) {
             console.error('Export failed:', error);
-            this.showToast('Export failed', 'error');
         }
     }
 
@@ -1016,11 +1049,9 @@ class PromptNestSidebar {
                 
                 this.updatePromptList();
                 this.updateCategoryList();
-                this.showToast('Data imported successfully!');
                 
             } catch (error) {
                 console.error('Import failed:', error);
-                this.showToast('Import failed - invalid file format', 'error');
             }
         };
         
@@ -1102,41 +1133,6 @@ class PromptNestSidebar {
         }
     }
 
-    showToast(message, type = 'success') {
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${type === 'error' ? '#dc2626' : '#10b981'};
-            color: white;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            z-index: 1000000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-        `;
-        toast.textContent = message;
-        
-        document.body.appendChild(toast);
-        
-        // Animate in
-        setTimeout(() => {
-            toast.style.transform = 'translateX(0)';
-        }, 100);
-        
-        // Remove after 3 seconds
-        setTimeout(() => {
-            toast.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.parentNode.removeChild(toast);
-                }
-            }, 300);
-        }, 3000);
-    }
 
     open() {
         if (this.isOpen) return;

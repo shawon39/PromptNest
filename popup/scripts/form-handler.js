@@ -168,18 +168,12 @@ class PromptNestFormHandler {
             }
 
             if (success) {
-                PromptNestUtils.showNotification(
-                    isEdit ? 'Prompt updated successfully' : 'Prompt created successfully',
-                    'success'
-                );
                 return true;
             } else {
-                PromptNestUtils.showNotification('Failed to save prompt', 'error');
                 return false;
             }
         } catch (error) {
             console.error('Failed to save prompt:', error);
-            PromptNestUtils.showNotification('Failed to save prompt', 'error');
             return false;
         } finally {
             // Re-enable the save button and reset submission flag
@@ -218,15 +212,12 @@ class PromptNestFormHandler {
             const newCategory = await promptNestStorage.addCategory(name);
             
             if (newCategory) {
-                PromptNestUtils.showNotification('Category created successfully', 'success');
                 return true;
             } else {
-                PromptNestUtils.showNotification('Failed to create category', 'error');
                 return false;
             }
         } catch (error) {
             console.error('Failed to save category:', error);
-            PromptNestUtils.showNotification('Failed to create category', 'error');
             return false;
         } finally {
             // Re-enable the save button and reset submission flag

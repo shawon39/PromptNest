@@ -124,7 +124,7 @@ class PromptNestSidebar {
 
     generateCategoriesHTML() {
         const allCategory = `
-            <div class="promptnest-category-item active" data-category="all">
+            <div class="promptnest-category-item ${this.currentCategory === 'all' ? 'active' : ''}" data-category="all">
                 <span>All Prompts</span>
                 <span class="promptnest-category-count">${this.prompts.length}</span>
             </div>
@@ -134,8 +134,9 @@ class PromptNestSidebar {
             .filter(cat => cat.id !== 'all')
             .map(category => {
                 const count = this.prompts.filter(p => p.categoryId === category.id).length;
+                const isActive = this.currentCategory === category.id;
                 return `
-                    <div class="promptnest-category-item" data-category="${category.id}">
+                    <div class="promptnest-category-item ${isActive ? 'active' : ''}" data-category="${category.id}">
                         <span>${category.name}</span>
                         <span class="promptnest-category-count">${count}</span>
                     </div>
@@ -170,14 +171,17 @@ class PromptNestSidebar {
                     <button class="promptnest-use-btn" data-action="use" data-prompt-id="${prompt.id}">
                         <span class="icon icon-use"></span> Insert
                     </button>
-                    <button class="promptnest-copy-btn" data-action="copy" data-prompt-id="${prompt.id}">
-                        <span class="icon icon-copy"></span> Copy
+                    <button class="promptnest-copy-btn" data-action="copy" data-prompt-id="${prompt.id}" title="Copy">
+                        <span class="icon icon-copy"></span>
                     </button>
-                    <button class="promptnest-edit-btn" data-action="edit" data-prompt-id="${prompt.id}">
-                        <span class="icon icon-edit"></span> Edit
+                    <button class="promptnest-view-btn" data-action="view" data-prompt-id="${prompt.id}" title="View">
+                        <span class="icon icon-eye"></span>
                     </button>
-                    <button class="promptnest-delete-btn" data-action="delete" data-prompt-id="${prompt.id}">
-                        <span class="icon icon-delete"></span> Delete
+                    <button class="promptnest-edit-btn" data-action="edit" data-prompt-id="${prompt.id}" title="Edit">
+                        <span class="icon icon-edit"></span>
+                    </button>
+                    <button class="promptnest-delete-btn" data-action="delete" data-prompt-id="${prompt.id}" title="Delete">
+                        <span class="icon icon-delete"></span>
                     </button>
                 </div>
             </div>
@@ -360,14 +364,17 @@ class PromptNestSidebar {
                     <button class="promptnest-use-btn" data-action="use" data-prompt-id="${prompt.id}">
                         <span class="icon icon-use"></span> Insert
                     </button>
-                    <button class="promptnest-copy-btn" data-action="copy" data-prompt-id="${prompt.id}">
-                        <span class="icon icon-copy"></span> Copy
+                    <button class="promptnest-copy-btn" data-action="copy" data-prompt-id="${prompt.id}" title="Copy">
+                        <span class="icon icon-copy"></span>
                     </button>
-                    <button class="promptnest-edit-btn" data-action="edit" data-prompt-id="${prompt.id}">
-                        <span class="icon icon-edit"></span> Edit
+                    <button class="promptnest-view-btn" data-action="view" data-prompt-id="${prompt.id}" title="View">
+                        <span class="icon icon-eye"></span>
                     </button>
-                    <button class="promptnest-delete-btn" data-action="delete" data-prompt-id="${prompt.id}">
-                        <span class="icon icon-delete"></span> Delete
+                    <button class="promptnest-edit-btn" data-action="edit" data-prompt-id="${prompt.id}" title="Edit">
+                        <span class="icon icon-edit"></span>
+                    </button>
+                    <button class="promptnest-delete-btn" data-action="delete" data-prompt-id="${prompt.id}" title="Delete">
+                        <span class="icon icon-delete"></span>
                     </button>
                 </div>
             </div>
@@ -384,6 +391,9 @@ class PromptNestSidebar {
                 break;
             case 'copy':
                 await this.copyPrompt(prompt);
+                break;
+            case 'view':
+                this.modalManager.showViewPromptModal(prompt);
                 break;
             case 'edit':
                 this.modalManager.showEditPromptModal(prompt);
@@ -409,9 +419,7 @@ class PromptNestSidebar {
             this.close();
             
             // Show success feedback
-            this.utils.showToast('Prompt inserted successfully!');
         } else {
-            this.utils.showToast('Could not find input field. Please try again.', 'error');
         }
     }
 
@@ -426,10 +434,8 @@ class PromptNestSidebar {
             await chrome.storage.local.set({ prompts: this.prompts });
             
             // Show success feedback
-            this.utils.showToast('Prompt copied to clipboard!');
         } catch (error) {
             console.error('Failed to copy prompt:', error);
-            this.utils.showToast('Failed to copy prompt to clipboard', 'error');
         }
     }
 
@@ -484,9 +490,6 @@ class PromptNestSidebar {
     }
 
     // Delegate utility methods
-    showToast(message, type = 'success') {
-        return this.utils.showToast(message, type);
-    }
 
     applyTheme(theme) {
         return this.utils.applyTheme(theme);
