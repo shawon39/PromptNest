@@ -133,30 +133,31 @@ PromptNest follows a modular, class-based architecture with strict file size lim
 ```
 PromptNest/
 ├── manifest.json                    # Extension configuration (Manifest V3)
-├── background.js                    # Service worker - PromptNestBackground class
-├── content/                         # Content scripts (injected into AI sites)
-│   ├── content.js                  # PromptNestFloatingIcon - site detection & icon
-│   ├── sidebar.js                  # PromptNestSidebar - full-screen overlay interface
-│   ├── sidebar-utils.js            # SidebarUtils - text insertion & utilities
-│   ├── sidebar-modal-manager.js    # SidebarModalManager - CRUD modal management
-│   ├── sidebar.css                 # Sidebar styling
-│   └── icon.css                    # Floating icon styling
+├── assets/                          # Organized assets directory
+│   ├── css/                        # All CSS files
+│   │   ├── base.css               # Core styles and layout
+│   │   ├── icon.css               # Floating icon styling
+│   │   ├── icons.css              # Icon definitions and styles
+│   │   ├── popup.css              # Component-specific styles
+│   │   ├── sidebar.css            # Sidebar styling
+│   │   └── themes.css             # Light/dark theme definitions
+│   └── js/                         # All JavaScript files
+│       ├── background.js          # Service worker - PromptNestBackground class
+│       ├── content.js             # PromptNestFloatingIcon - site detection & icon
+│       ├── data-manager.js        # PromptNestDataManager - CRUD operations
+│       ├── form-handler.js        # PromptNestFormHandler - form validation
+│       ├── import-export.js       # JSON backup/restore
+│       ├── popup.js               # PromptNestUI - main coordinator
+│       ├── search.js              # Fuzzy search functionality
+│       ├── settings.js            # Theme and settings management
+│       ├── sidebar-modal-manager.js # SidebarModalManager - CRUD modal management
+│       ├── sidebar-original.js    # Original sidebar backup
+│       ├── sidebar-utils.js       # SidebarUtils - text insertion & utilities
+│       ├── sidebar.js             # PromptNestSidebar - full-screen overlay interface
+│       ├── storage.js             # promptNestStorage - Chrome storage API
+│       └── utils.js               # Shared utility functions
 ├── popup/                          # Extension popup interface
-│   ├── popup.html                  # Main HTML structure
-│   ├── scripts/
-│   │   ├── popup.js               # PromptNestUI - main coordinator
-│   │   ├── data-manager.js        # PromptNestDataManager - CRUD operations
-│   │   ├── form-handler.js        # PromptNestFormHandler - form validation
-│   │   ├── storage.js             # promptNestStorage - Chrome storage API
-│   │   ├── search.js              # Fuzzy search functionality
-│   │   ├── settings.js            # Theme and settings management
-│   │   ├── import-export.js       # JSON backup/restore
-│   │   └── utils.js               # Shared utility functions
-│   └── styles/
-│       ├── base.css               # Core styles and layout
-│       ├── themes.css             # Light/dark theme definitions
-│       ├── popup.css              # Component-specific styles
-│       └── icons.css              # Icon definitions and styles
+│   └── popup.html                  # Main HTML structure
 └── icons/                          # Extension icons and assets
     ├── README.md                   # Icon requirements and specifications
     ├── icon-48.png                # Extension icon (48x48)
@@ -166,19 +167,19 @@ PromptNest/
 ### Class Hierarchy and Responsibilities
 
 #### Background Script
-- **`PromptNestBackground`**: Service worker handling extension lifecycle, context menus, keyboard shortcuts, and notifications
+- **`PromptNestBackground`** (`assets/js/background.js`): Service worker handling extension lifecycle, context menus, keyboard shortcuts, and notifications
 
 #### Content Scripts (AI Website Integration)
-- **`PromptNestFloatingIcon`**: Detects supported AI sites, injects floating icon, initializes sidebar
-- **`PromptNestSidebar`**: Full-screen overlay interface for prompt management on AI sites
-- **`SidebarUtils`**: Text insertion logic, keyboard shortcuts, theme management
-- **`SidebarModalManager`**: Handles add/edit/delete modals within the sidebar
+- **`PromptNestFloatingIcon`** (`assets/js/content.js`): Detects supported AI sites, injects floating icon, initializes sidebar
+- **`PromptNestSidebar`** (`assets/js/sidebar.js`): Full-screen overlay interface for prompt management on AI sites
+- **`SidebarUtils`** (`assets/js/sidebar-utils.js`): Text insertion logic, keyboard shortcuts, theme management
+- **`SidebarModalManager`** (`assets/js/sidebar-modal-manager.js`): Handles add/edit/delete modals within the sidebar
 
 #### Popup Interface
-- **`PromptNestUI`**: Main coordinator class for popup interface
-- **`PromptNestDataManager`**: Handles all CRUD operations and UI updates
-- **`PromptNestFormHandler`**: Form validation and submission handling
-- **`promptNestStorage`**: Singleton abstraction for Chrome Storage API
+- **`PromptNestUI`** (`assets/js/popup.js`): Main coordinator class for popup interface
+- **`PromptNestDataManager`** (`assets/js/data-manager.js`): Handles all CRUD operations and UI updates
+- **`PromptNestFormHandler`** (`assets/js/form-handler.js`): Form validation and submission handling
+- **`promptNestStorage`** (`assets/js/storage.js`): Singleton abstraction for Chrome Storage API
 
 ### Data Flow Architecture
 
@@ -328,7 +329,7 @@ Following the project's established workflow ensures consistent code quality and
 
 **Step 2: Update Site Detection**
 ```javascript
-// content/content.js and background.js
+// assets/js/content.js and assets/js/background.js
 const supportedSites = [
   'chat.openai.com',
   'newplatform.com'         // Add new platform
@@ -337,7 +338,7 @@ const supportedSites = [
 
 **Step 3: Add Text Insertion Selectors**
 ```javascript
-// content/content.js and content/sidebar-utils.js
+// assets/js/content.js and assets/js/sidebar-utils.js
 const siteSpecificSelectors = {
   'newplatform.com': ['#input-selector', '.fallback-selector']
 };
