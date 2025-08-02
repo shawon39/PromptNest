@@ -21,6 +21,13 @@
       "js": ["assets/js/sidebar-utils.js", "assets/js/sidebar-modal-manager.js", "assets/js/sidebar.js", "assets/js/content.js"],
       "css": ["assets/css/icon.css", "assets/css/sidebar.css"],
       "run_at": "document_end"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": ["assets/js/sidebar-utils.js", "assets/js/sidebar-modal-manager.js", "assets/js/sidebar.js", "assets/js/content.js"],
+      "css": ["assets/css/icon.css", "assets/css/sidebar.css"],
+      "run_at": "document_end",
+      "all_frames": false
     }
   ],
 
@@ -59,7 +66,8 @@
     "*://gemini.google.com/*",
     "*://claude.ai/*",
     "*://copilot.microsoft.com/*",
-    "*://chat.deepseek.com/*"
+    "*://chat.deepseek.com/*",
+    "<all_urls>"
   ],
 
   "web_accessible_resources": [

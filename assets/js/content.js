@@ -19,6 +19,9 @@ class PromptNestFloatingIcon {
     init() {
         if (this.isSupportedSite()) {
             this.waitForPageLoad();
+        } else {
+            // For non-supported sites, only initialize sidebar without floating icon
+            this.initializeSidebarOnly();
         }
     }
 
@@ -64,6 +67,17 @@ class PromptNestFloatingIcon {
                     console.error('PromptNestSidebar class still not available after retry');
                 }
             }, 500);
+        }
+    }
+
+    initializeSidebarOnly() {
+        // Initialize sidebar without floating icon for non-supported sites
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(() => this.initializeSidebar(), 1000);
+            });
+        } else {
+            setTimeout(() => this.initializeSidebar(), 1000);
         }
     }
 
@@ -316,6 +330,25 @@ chrome.runtime.onMessage.addListener((request, _sender, sendResponse) => {
                     }
                 }, 100);
             }
+        } else if (request.isUniversal) {
+            // Handle universal sidebar toggle for non-supported sites
+            if (!promptNestIcon) {
+                promptNestIcon = new PromptNestFloatingIcon();
+            }
+            // Wait for sidebar to be initialized
+            setTimeout(() => {
+                if (promptNestIcon.sidebar) {
+                    promptNestIcon.sidebar.toggle();
+                    if (request.focusSearch) {
+                        setTimeout(() => {
+                            const searchInput = document.querySelector('#promptnest-search');
+                            if (searchInput) {
+                                searchInput.focus();
+                            }
+                        }, 100);
+                    }
+                }
+            }, 500);
         }
         sendResponse({ success: true });
     }

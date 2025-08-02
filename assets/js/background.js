@@ -179,8 +179,8 @@ class PromptNestBackground {
                     await this.saveSelectedTextAsPrompt(info.selectionText, tab);
                     break;
                 case 'openPromptNest':
-                    // Toggle sidebar on active tab
-                    this.toggleSidebarOnActiveTab();
+                    // Toggle sidebar on active tab (works on any website)
+                    this.toggleSidebarOnActiveTab(false, true);
                     break;
                 default:
                     console.log('Unknown context menu item:', info.menuItemId);
@@ -278,14 +278,19 @@ class PromptNestBackground {
         }
     }
 
-    async toggleSidebarOnActiveTab(focusSearch = false) {
+    async toggleSidebarOnActiveTab(focusSearch = false, forceUniversal = false) {
         try {
             const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-            if (tab && this.isSupportedSite(tab.url)) {
-                chrome.tabs.sendMessage(tab.id, {
-                    action: 'toggleSidebar',
-                    focusSearch: focusSearch
-                });
+            if (tab) {
+                // If forceUniversal is true (from context menu), work on any site
+                // Otherwise, only work on supported sites (for keyboard shortcuts)
+                if (forceUniversal || this.isSupportedSite(tab.url)) {
+                    chrome.tabs.sendMessage(tab.id, {
+                        action: 'toggleSidebar',
+                        focusSearch: focusSearch,
+                        isUniversal: forceUniversal
+                    });
+                }
             }
         } catch (error) {
             console.error('Failed to toggle sidebar:', error);

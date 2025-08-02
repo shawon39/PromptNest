@@ -7,6 +7,7 @@ A modern Chrome extension (Manifest V3) for managing AI prompts with intelligent
 ### Core Functionality
 - **🎯 Smart AI Site Detection**: Automatically detects and activates on 5 major AI platforms
 - **💫 Floating Icon Interface**: Unobtrusive floating icon appears only on supported AI websites
+- **🌐 Universal Access**: Context menu "Open PromptNest" works on any website
 - **📁 Category Organization**: Create unlimited custom categories to organize your prompts
 - **🔍 Advanced Search**: Real-time fuzzy search with highlighting and search history
 - **⚡ Instant Insertion**: One-click prompt insertion into any AI chat input field
@@ -121,8 +122,14 @@ A modern Chrome extension (Manifest V3) for managing AI prompts with intelligent
 
 ### Context Menu Features
 
-- **Right-click on selected text** → "Save as PromptNest prompt"
-- **Right-click on page** → "Open PromptNest"
+- **Right-click on selected text** → "Save as PromptNest prompt" (on supported AI sites)
+- **Right-click on page** → "Open PromptNest" (works on any website)
+
+### Universal Access
+
+- **PromptNest works everywhere!** While the floating icon and automatic detection are limited to AI websites, you can access PromptNest on any website using the right-click context menu
+- **Supported AI Sites**: Full features including floating icon and automatic text insertion
+- **Any Other Website**: Access via context menu to manage prompts and copy content
 
 ## Architecture Overview 🏗️
 
