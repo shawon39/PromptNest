@@ -5,7 +5,8 @@
   "description": "A sleek Chrome extension for saving and managing AI prompts with categories, search, and one-click insertion.",
   
   "action": {
-    "default_title": "PromptNest - Manage Your Prompts"
+    "default_title": "PromptNest - Manage Your Prompts",
+    "default_popup": "popup/popup.html"
   },
 
   "content_scripts": [

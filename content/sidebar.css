@@ -125,9 +125,16 @@
     right: 0;
 }
 
-/* Dark theme support */
+/* Dark theme support using class-based approach */
+#promptnest-sidebar.dark-theme {
+    background: #1f2937;
+    color: #f9fafb;
+    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Fallback for system preference when no theme class is set */
 @media (prefers-color-scheme: dark) {
-    #promptnest-sidebar {
+    #promptnest-sidebar:not(.light-theme):not(.dark-theme) {
         background: #1f2937;
         color: #f9fafb;
         box-shadow: -2px 0 20px rgba(0, 0, 0, 0.3);
@@ -150,8 +157,13 @@
     flex-shrink: 0;
 }
 
+#promptnest-sidebar.dark-theme .promptnest-header {
+    background: #374151;
+    border-bottom-color: #4b5563;
+}
+
 @media (prefers-color-scheme: dark) {
-    .promptnest-header {
+    #promptnest-sidebar:not(.light-theme):not(.dark-theme) .promptnest-header {
         background: #374151;
         border-bottom-color: #4b5563;
     }
@@ -860,7 +872,7 @@
 }
 
 .promptnest-form-textarea {
-    min-height: 120px;
+    min-height: 200px;
     resize: vertical;
     font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -1121,13 +1133,225 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    .promptnest-prompt-list::-webkit-scrollbar-thumb,
-    .promptnest-categories::-webkit-scrollbar-thumb {
+    #promptnest-sidebar:not(.light-theme):not(.dark-theme) .promptnest-prompt-list::-webkit-scrollbar-thumb,
+    #promptnest-sidebar:not(.light-theme):not(.dark-theme) .promptnest-categories::-webkit-scrollbar-thumb {
         background: #4b5563;
     }
     
-    .promptnest-prompt-list::-webkit-scrollbar-thumb:hover,
-    .promptnest-categories::-webkit-scrollbar-thumb:hover {
+    #promptnest-sidebar:not(.light-theme):not(.dark-theme) .promptnest-prompt-list::-webkit-scrollbar-thumb:hover,
+    #promptnest-sidebar:not(.light-theme):not(.dark-theme) .promptnest-categories::-webkit-scrollbar-thumb:hover {
         background: #6b7280;
     }
+}
+
+/* Dark theme overrides using class-based approach for better theme control */
+#promptnest-sidebar.dark-theme .promptnest-header {
+    background: #374151;
+    border-bottom-color: #4b5563;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-settings-btn {
+    color: #9ca3af;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-settings-btn:hover {
+    background: #4b5563;
+    color: #f3f4f6;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-title {
+    color: #f9fafb;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-close-btn {
+    color: #9ca3af;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-close-btn:hover {
+    background: #4b5563;
+    color: #f3f4f6;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-search-input {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-search-input:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 1px #60a5fa;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-search-clear {
+    color: #6b7280;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-search-clear:hover {
+    background: #4b5563;
+    color: #9ca3af;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-categories {
+    background: #374151;
+    border-right-color: #4b5563;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-categories-header {
+    border-bottom-color: #4b5563;
+    color: #9ca3af;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-category-item:hover {
+    background: #4b5563;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-category-item.active {
+    background: #1e3a8a;
+    color: #93c5fd;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-category-count {
+    color: #9ca3af;
+    background: #4b5563;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-content-header {
+    background: #1f2937;
+    border-bottom-color: #4b5563;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-content-title {
+    color: #f3f4f6;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-prompt-item {
+    background: #374151;
+    border-color: #4b5563;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-prompt-item:hover {
+    border-color: #60a5fa;
+    box-shadow: 0 2px 8px rgba(96, 165, 250, 0.1);
+}
+
+#promptnest-sidebar.dark-theme .promptnest-prompt-title {
+    color: #f9fafb;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-prompt-content {
+    color: #9ca3af;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-empty-state {
+    color: #9ca3af;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-copy-btn,
+#promptnest-sidebar.dark-theme .promptnest-view-btn,
+#promptnest-sidebar.dark-theme .promptnest-edit-btn,
+#promptnest-sidebar.dark-theme .promptnest-delete-btn {
+    background: #475569;
+    border-color: #64748b;
+    color: #cbd5e1;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-copy-btn:hover {
+    background: #1e3a8a;
+    color: #93c5fd;
+    border-color: #3b82f6;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-edit-btn:hover {
+    background: #334155;
+    color: #f1f5f9;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-delete-btn:hover {
+    background: #7f1d1d;
+    color: #fca5a5;
+    border-color: #991b1b;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-copy-btn::after,
+#promptnest-sidebar.dark-theme .promptnest-view-btn::after,
+#promptnest-sidebar.dark-theme .promptnest-edit-btn::after,
+#promptnest-sidebar.dark-theme .promptnest-delete-btn::after {
+    background: #f3f4f6;
+    color: #1f2937;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-modal {
+    background: #374151;
+    color: #f9fafb;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-modal-header {
+    border-bottom-color: #4b5563;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-modal-title {
+    color: #f9fafb;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-modal-close {
+    color: #9ca3af;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-modal-close:hover {
+    background: #4b5563;
+    color: #f3f4f6;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-form-label {
+    color: #f3f4f6;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-form-input,
+#promptnest-sidebar.dark-theme .promptnest-form-select,
+#promptnest-sidebar.dark-theme .promptnest-form-textarea {
+    background: #4b5563;
+    border-color: #6b7280;
+    color: #f9fafb;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-form-input:focus,
+#promptnest-sidebar.dark-theme .promptnest-form-select:focus,
+#promptnest-sidebar.dark-theme .promptnest-form-textarea:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+#promptnest-sidebar.dark-theme .promptnest-view-label {
+    color: #f3f4f6;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-view-content {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-modal-footer {
+    border-top-color: #4b5563;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-btn-secondary {
+    background: #4b5563;
+    color: #f3f4f6;
+    border-color: #6b7280;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-btn-secondary:hover {
+    background: #374151;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-prompt-list::-webkit-scrollbar-thumb,
+#promptnest-sidebar.dark-theme .promptnest-categories::-webkit-scrollbar-thumb {
+    background: #4b5563;
+}
+
+#promptnest-sidebar.dark-theme .promptnest-prompt-list::-webkit-scrollbar-thumb:hover,
+#promptnest-sidebar.dark-theme .promptnest-categories::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
 }

@@ -73,24 +73,32 @@ class SidebarUtils {
     }
 
     applyTheme(theme) {
-        // Apply theme to the sidebar
         const sidebar = document.getElementById('promptnest-sidebar');
-        if (sidebar) {
-            sidebar.setAttribute('data-theme', theme);
-        }
+        if (!sidebar) return;
         
-        // You can extend this to apply more comprehensive theming
+        // Set data-theme attribute for CSS selectors
+        sidebar.setAttribute('data-theme', theme);
+        
+        // Add/remove theme classes for comprehensive theming
+        sidebar.classList.remove('theme-light', 'theme-dark', 'theme-auto');
+        sidebar.classList.add(`theme-${theme}`);
+        
+        // Apply actual theme for CSS targeting
         if (theme === 'dark') {
-            sidebar?.classList.add('dark-theme');
+            sidebar.classList.add('dark-theme');
+            sidebar.classList.remove('light-theme');
         } else if (theme === 'light') {
-            sidebar?.classList.remove('dark-theme');
+            sidebar.classList.add('light-theme');
+            sidebar.classList.remove('dark-theme');
         } else {
             // Auto theme - detect system preference
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             if (prefersDark) {
-                sidebar?.classList.add('dark-theme');
+                sidebar.classList.add('dark-theme');
+                sidebar.classList.remove('light-theme');
             } else {
-                sidebar?.classList.remove('dark-theme');
+                sidebar.classList.add('light-theme');
+                sidebar.classList.remove('dark-theme');
             }
         }
     }

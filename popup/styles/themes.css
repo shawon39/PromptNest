@@ -1,3 +1,18 @@
+/* Default variables (fallback) */
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f1f5f9;
+    --bg-hover: #e2e8f0;
+    
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-tertiary: #64748b;
+    
+    --border-color: #e2e8f0;
+    --border-hover: #cbd5e1;
+}
+
 /* Light Theme (Default) */
 [data-theme="light"], [data-theme="auto"] {
     --bg-primary: #ffffff;

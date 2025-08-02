@@ -9,7 +9,6 @@ class PromptNestUI {
     }
 
     async init() {
-        await this.loadTheme();
         await this.setupEventListeners();
         await this.dataManager.loadCategories();
         await this.dataManager.loadPrompts();
@@ -28,16 +27,6 @@ class PromptNestUI {
         this.dataManager.currentPrompt = value;
     }
 
-    async loadTheme() {
-        try {
-            const settings = await promptNestStorage.getSettings();
-            const theme = settings.theme || 'auto';
-            document.body.setAttribute('data-theme', theme);
-        } catch (error) {
-            console.error('Failed to load theme:', error);
-            document.body.setAttribute('data-theme', 'auto');
-        }
-    }
 
     async setupEventListeners() {
         // Clear any existing event listeners first

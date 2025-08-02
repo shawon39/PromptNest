@@ -106,7 +106,7 @@ class SidebarModalManager {
                     
                     <div class="promptnest-form-group">
                         <label class="promptnest-form-label">Prompt Content</label>
-                        <textarea id="prompt-content" class="promptnest-form-textarea" placeholder="Enter your prompt here..." required></textarea>
+                        <textarea id="prompt-content" class="promptnest-form-textarea" placeholder="Enter your prompt here..." rows="10" required></textarea>
                         <div class="promptnest-form-error" id="content-error"></div>
                     </div>
                 </form>
@@ -272,7 +272,7 @@ class SidebarModalManager {
                     
                     <div class="promptnest-form-group">
                         <label class="promptnest-form-label">Prompt Content</label>
-                        <textarea id="edit-prompt-content" class="promptnest-form-textarea" required>${prompt.content}</textarea>
+                        <textarea id="edit-prompt-content" class="promptnest-form-textarea" rows="10" required>${prompt.content}</textarea>
                         <div class="promptnest-form-error" id="edit-content-error"></div>
                     </div>
                 </form>

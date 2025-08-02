@@ -98,13 +98,15 @@ class PromptNestSettings {
             actualTheme = this.getSystemTheme();
         }
         
-        // Apply the theme to the document
+        // Apply the theme to the document - use the actual resolved theme for CSS
         document.body.setAttribute('data-theme', actualTheme);
         
-        // Store in local variable
+        // Store the user preference (which might be 'auto')
         if (this.currentSettings) {
             this.currentSettings.theme = theme;
         }
+        
+        console.log('Theme applied:', theme, 'Actual theme used for CSS:', actualTheme);
     }
 
     async updateSetting(key, value) {
@@ -181,9 +183,10 @@ class PromptNestSettings {
         if (window.matchMedia) {
             const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
             
-            mediaQuery.addEventListener('change', (e) => {
+            mediaQuery.addEventListener('change', () => {
                 // Only update if theme is set to auto
                 if (this.currentSettings && this.currentSettings.theme === 'auto') {
+                    console.log('System theme changed, re-applying auto theme');
                     this.applyTheme('auto');
                 }
             });
@@ -367,6 +370,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!window.promptNestSettings) {
         promptNestSettings = new PromptNestSettings();
         window.promptNestSettings = promptNestSettings;
+        
+        // Initialize theme immediately
         await promptNestSettings.initializeTheme();
         promptNestSettings.setupKeyboardShortcuts();
     }

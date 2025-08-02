@@ -19,7 +19,9 @@ class PromptNestSidebar {
     async init() {
         await this.loadData();
         this.createSidebar();
+        await this.loadAndApplyTheme();
         this.setupEventListeners();
+        this.setupStorageListener();
         this.utils.setupKeyboardShortcuts();
     }
 
@@ -37,6 +39,25 @@ class PromptNestSidebar {
             console.error('Failed to load PromptNest data:', error);
             this.prompts = [];
             this.categories = [{ id: 'all', name: 'All Prompts', created: Date.now() }];
+        }
+    }
+
+    async loadAndApplyTheme() {
+        try {
+            const result = await chrome.storage.local.get(['settings']);
+            const settings = result.settings || { theme: 'auto' };
+            const theme = settings.theme || 'auto';
+            
+            let actualTheme = theme;
+            if (theme === 'auto') {
+                actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            
+            this.utils.applyTheme(actualTheme);
+            console.log('Sidebar theme applied:', theme, 'Actual:', actualTheme);
+        } catch (error) {
+            console.error('Failed to load sidebar theme:', error);
+            this.utils.applyTheme('light');
         }
     }
 
@@ -493,6 +514,25 @@ class PromptNestSidebar {
 
     applyTheme(theme) {
         return this.utils.applyTheme(theme);
+    }
+
+    setupStorageListener() {
+        // Listen for storage changes to update theme
+        chrome.storage.onChanged.addListener((changes, areaName) => {
+            if (areaName === 'local' && changes.settings) {
+                const newSettings = changes.settings.newValue;
+                const oldSettings = changes.settings.oldValue;
+                
+                if (newSettings?.theme !== oldSettings?.theme) {
+                    this.refreshTheme();
+                }
+            }
+        });
+    }
+
+    // Method to refresh theme when settings change
+    async refreshTheme() {
+        await this.loadAndApplyTheme();
     }
 }
 

@@ -276,9 +276,6 @@ body {
     font-size: 13px;
     line-height: 1.4;
     margin-bottom: 8px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
@@ -469,7 +466,7 @@ body {
 
 .form-textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 200px;
     font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
